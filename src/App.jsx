@@ -5,6 +5,7 @@ import Products from "./pages/Product/Products"
 import { AuthProvider } from "./context/AuthProvider"
 import ProductDetail from "./pages/Product/ProductDetail"
 import ShoppingCart from "./pages/ShoppingCart"
+import OrderConfirmation from "./pages/OrderConfirmation"
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/products" element={<Products />}/>
         <Route path="/products/:productId" element={<ProductDetail />}/>
         <Route path="/shoppingcart" element={<ShoppingCart />} />
+        <Route path="/order_confirmation" element={<OrderConfirmation />}/>
       </Routes>
     </AuthProvider>
 

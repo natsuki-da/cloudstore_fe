@@ -1,54 +1,45 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { useAuth } from "../context/useAuth";
 import * as GS from "../styles/GlobalStyle.styles";
 import * as S from "./ShoppingCart.styles";
-import { createOrder } from "../api/orderAPI";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
-const ShoppingCart = () => {
-    const { cartItems, setCartItem } = useAuth();
+const Container = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const OrderConfirmation = () => {
+    const { cartItems, setCartItems } = useAuth();
     const navigate = useNavigate();
 
     function handleGoBack() {
+        setCartItems([]);
         navigate("/products")
     }
 
-    const grandTotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0) || 0;
-
-    async function handleCheckout() {
-        if (cartItems.length === 0) {
-            alert("Your cart is empty.");
-            return;
-        }
-
+    useEffect(() => {
         const token = localStorage.getItem("token");
-        if (!token) {
-            navigate("/login");
-            return;
-        }
+        console.log(token);
+        localStorage.removeItem("token");
+        console.log("token removed");
+    }, []);
 
-        const orderRequest = {
-            totalPrice: grandTotal,
-            items: cartItems.map(cartItem => ({
-                productId: cartItem.id,
-                quantity: cartItem.quantity,
-                price: cartItem.price
-            }))
-        };
-        try {
-            const response = await createOrder(orderRequest);
-            console.log(response.data);
-            //setCartItem([]);
-            navigate("/order_confirmation");
-        } catch (error) {
-            console.error(error);
-            alert("Order unsuccessful");
-        }
-    }
+
     return (
         <GS.Container>
-            <S.Container>
+            <Container>
                 <S.Header>
-                    <S.PageTitle>Shopping Cart</S.PageTitle>
+                    <S.PageTitle style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}>Order Successful!</S.PageTitle>
                 </S.Header>
                 <S.Body>
                     <S.CartItemsTable>
@@ -78,16 +69,17 @@ const ShoppingCart = () => {
                             }
                         </S.TableBody>
                     </S.CartItemsTable>
-                    <S.CartSummarySection>Total: ${grandTotal.toFixed(2)}</S.CartSummarySection>
                 </S.Body>
-                <S.Footer>
-                    <S.GoBackButton onClick={handleGoBack}>Continue Shopping</S.GoBackButton>
-                    <S.CheckoutButton onClick={handleCheckout}>Checkout</S.CheckoutButton>
+                <S.Footer style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}>
+                    <S.GoBackButton onClick={handleGoBack}>Home</S.GoBackButton>
                 </S.Footer>
-            </S.Container>
+            </Container>
         </GS.Container >
-    )
+    );
+}
 
-};
-
-export default ShoppingCart;
+export default OrderConfirmation;
