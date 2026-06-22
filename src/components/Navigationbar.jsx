@@ -8,14 +8,14 @@ const Navigationbar = () => {
             <S.Container>
                 <a href="/">
                     <S.StoreName>Cloud Store</S.StoreName>
-                    <S.Icon src="public/icons/cloud.png" alt="cloud store icon" />
+                    <S.Icon src="/icons/cloud.png" alt="cloud store icon" />
                 </a>
                 <S.CartIcon>
                     <Link to="/login">
-                        <img src="public/icons/person.png" alt="login icon" />
+                        <img src="/icons/person.png" alt="login icon" />
                     </Link>
                     <Link to="/shoppingcart">
-                        <img src="public/icons/shopping-cart.png" alt="shopping cart icon" />
+                        <img src="/icons/shopping-cart.png" alt="shopping cart icon" />
                     </Link>
                 </S.CartIcon>
             </S.Container>
